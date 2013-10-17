@@ -8,7 +8,6 @@ Gem::Specification.new do |s|
   s.version = "1.0.4"
   s.platform    = Gem::Platform::RUBY 
   s.authors = ["Kaare Soerensen"]
-  s.date = {2013-10-15}
   s.description = %q{Pingdom Ruby Client}
   s.email = ["kaarebs@gmail.com"]
   s.files = `git ls-files`.split($/)
