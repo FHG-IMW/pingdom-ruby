@@ -1,3 +1,4 @@
+require "json"
 module Pingdom
   class Base
     
@@ -46,8 +47,8 @@ module Pingdom
     end
     
     def self.parse(client, response)
-      check_error!(response)
-      response.body
+      #check_error!(response)
+      JSON.parse(response.body, :symbolize_names => true)
     end
     
   end

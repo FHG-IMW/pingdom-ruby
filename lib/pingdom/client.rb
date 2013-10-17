@@ -1,3 +1,4 @@
+require "faraday"
 require File.join(File.dirname(__FILE__), '..', 'pingdom-ruby') unless defined? Pingdom
 
 module Pingdom
@@ -10,22 +11,14 @@ module Pingdom
       
       raise ArgumentError, "an application key must be provided (as :key)" unless @options.key?(:key)
       
-      @connection = Faraday::Connection.new(:url => "https://api/pingdom.com/api/2.0/") do |builder|
-        builder.url_prefix = "https://api.pingdom.com/api/2.0"
-        
-        builder.adapter :logger, @options[:logger]
-        
-        builder.adapter @options[:http_driver]
-        
-        # builder.use Gzip # TODO: write GZip response handler, add Accept-Encoding: gzip header
-        builder.response :yajl
-        builder.use Tinder::FaradayResponse::WithIndifferentAccess
-        
-        builder.basic_auth @options[:username], @options[:password]
+      @connection = Faraday.new(:url => "https://api.pingdom.com/api/2.0/") do |faraday|
+        faraday.request :url_encoded
+        faraday.adapter Faraday.default_adapter 
+        faraday.response :logger
+        faraday.basic_auth @options[:username], @options[:password]
       end
     end
     
-    # probes => [1,2,3] #=> probes => "1,2,3"
     def prepare_params(options)
       options.each do |(key, value)|
         options[key] = Array.wrap(value).map(&:to_s).join(',')
@@ -34,11 +27,12 @@ module Pingdom
       
       options
     end
-    
+
     def get(uri, params = {}, &block)
-      response = @connection.get(@connection.build_url(uri, prepare_params(params)), "App-Key" => @options[:key], &block)
-      update_limits!(response.headers['req-limit-short'], response.headers['req-limit-long'])
-      response
+      @connection.get do |req|
+        req.url @connection.build_url(uri, prepare_params(params))
+        req.headers['App-Key'] = @options[:key]
+      end
     end
     
     def update_limits!(short, long)
