@@ -1,39 +1,23 @@
+# coding: utf-8
+
 Gem::Specification.new do |s|
-  s.name = %q{pingdom-ruby}
-  s.version = "1.0.3"
+  s.name = pingdom-ruby
+  s.version = "1.0.4"
   
-  s.authors = ["Jason Straughan"]
-  s.date = %q{2013-10-05}
+  s.authors = ["Kaare Soerensen"]
+  s.date = {2013-10-15}
   s.description = %q{Pingdom Ruby Client}
-  s.email = %q{jasons@grok-interactive.com}
-  s.files = [
-    "pingdom-ruby.gemspec",
-    "Gemfile",
-    "Gemfile.lock",
-    "lib/pingdom/base.rb",
-    "lib/pingdom/check.rb",
-    "lib/pingdom/client.rb",
-    "lib/pingdom/contact.rb",
-    "lib/pingdom/probe.rb",
-    "lib/pingdom/result.rb",
-    "lib/pingdom/summary/average.rb",
-    "lib/pingdom/summary/outage.rb",
-    "lib/pingdom/summary/performance.rb",
-    "lib/pingdom/summary.rb",
-    "lib/pingdom-ruby.rb",
-    "lib/pingdom.rb",
-    "lib/tinder/faraday_response.rb",
-    "Rakefile",
-    "Readme.md",
-    "spec/pingdom-ruby_spec.rb",
-    "spec/spec_helper.rb"
-  ]
+  s.email = %q{kaarebs@gmail.com}
+  s.files = `git ls-files`.split($/)
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Pingdom Ruby Client}
-  s.test_files = [
-    "spec/spec_helper.rb",
-    "spec/pingdom-ruby_spec.rb"
-  ]
+
+  s.add_dependency "faraday"
+  s.add_dependency "excon"
+  s.add_dependency "yajl-ruby"
+  s.add_dependency "i18n"
+  s.add_development_dependency "bundler"
+  s.add_development_dependency "rake"
+  s.add_development_dependency "rspec"
 end
