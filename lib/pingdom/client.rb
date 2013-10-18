@@ -57,6 +57,11 @@ module Pingdom
     def checks(options = {})
       Check.parse(self, get("checks", options))
     end
+
+    def alerts(options = {})
+      Alert.parse(self, get("actions", options))
+    end
+
     def check(id)
       Check.parse(self, get("checks/#{id}")).first
     end
