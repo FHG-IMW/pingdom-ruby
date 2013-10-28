@@ -14,7 +14,7 @@ module Pingdom
       @connection = Faraday.new(:url => "https://api.pingdom.com/api/2.0/") do |faraday|
         faraday.request :url_encoded
         faraday.adapter Faraday.default_adapter 
-        faraday.response :logger
+        faraday.response :logger || @options[:logger]
         faraday.basic_auth @options[:username], @options[:password]
       end
     end
