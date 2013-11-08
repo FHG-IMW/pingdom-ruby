@@ -4,8 +4,9 @@ module Pingdom
     
     class Proxy < Struct.new(:client, :check_id)
       def average(options = {})
-        options.reverse_merge!(:byprobe => true, :includeuptime => true)
-        Average.parse(client, client.get("summary.average/#{check_id}", options))
+	#We really only want the average returned and save us transferring all that data
+        #options.reverse_merge!(:byprobe => true, :includeuptime => true)        
+	Average.parse(client, client.get("summary.average/#{check_id}", options))
       end
       alias_method :averages, :average
       
